@@ -56,3 +56,5 @@ show_image(label2rgb(lab_spots, bg_label=0, bg_color='black'), title='(F) Distin
 show_image(mark_boundaries(np.clip(im_rgb, 0, 1), lab_spots, mode='thick'), title='(G) Relate objects to image', pos=247)
 show_image('images/workflow_results.png', title='(H) Make measurements', pos=248)
 glue_fig('fig_overview_workflow', fig)
+
+#reference: https://bioimagebook.github.io/chapters/2-processing/1-processing_and_analysis/processing_and_analysis.html?fbclid=IwAR08Oumtzl_YN_Br7_AKnLQTmb4WT7Jo8Szu5oftAsDRGBsw8wHyJW0P01k
