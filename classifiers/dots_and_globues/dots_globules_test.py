@@ -1,3 +1,10 @@
+"""
+This script involves processing an image to detect, refine, and distinguish objects 
+(like biological spots) within it using various image processing techniques from libraries 
+such as NumPy, SciPy, scikit-image, and matplotlib
+"""
+
+
 import numpy as np
 from scipy import ndimage
 from skimage.filters import threshold_triangle
