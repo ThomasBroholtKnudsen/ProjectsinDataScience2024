@@ -58,3 +58,5 @@ filepath = 'PAT_1018_107_68.png'
 # Process the image and print the number of detected spots
 num_spots = process_and_count_spots(filepath)
 print(f'Number of detected spots: {num_spots}')
+
+#reference: https://bioimagebook.github.io/chapters/2-processing/1-processing_and_analysis/processing_and_analysis.html?fbclid=IwAR08Oumtzl_YN_Br7_AKnLQTmb4WT7Jo8Szu5oftAsDRGBsw8wHyJW0P01k
