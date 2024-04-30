@@ -146,12 +146,21 @@ def getColorFeatures(image, mask):
 #colour_mean_hue is a list with all the region's hues
 
 
-def how_many_colours_are_there(colour_mean_hue):
+def how_many_colours_are_there(colour_mean_hue, hue_range = 60):
 
-    number_of_colours = len(colour_mean_hue)
+    regions_that_are_distinct = []
 
     for region_a in colour_mean_hue:
         for region_b in colour_mean_hue:
-            if region_a <= (region_b + 60) and region_a > (region_b - 60):
+            if region_a <= (region_b + hue_range) and region_a > (region_b - hue_range):
+                regions_that_are_distinct.append(region_a)
+                break
 
-            elif (360 + region_a) <= (region_b + 60) and (360 + region_a) > (region_b - 60):
+            elif (359 + region_a) <= (region_b + hue_range) and (359 + region_a) > (region_b - hue_range):
+                regions_that_are_distinct.append(region_a)
+                break
+
+            else:
+
+    number_of_colours = len(regions_that_are_distinct) +1
+    return(number_of_colours)
