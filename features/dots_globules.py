@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage.io import imread
-from skimage.color import rgb2gray
+from skimage.color import rgb2gray, rgba2rgb  # Import rgba2rgb function
 from skimage.filters import threshold_otsu
 from skimage.morphology import closing, square, opening, disk
 from skimage.measure import label, regionprops
@@ -18,6 +18,10 @@ def load_and_process_image(image_path, mask_path):
     # Load the image and the mask
     image = imread(image_path)
     mask = imread(mask_path)
+
+    # Convert RGBA image to RGB if it has an alpha channel
+    if image.shape[2] == 4:
+        image = rgba2rgb(image)
 
     # Convert the image to grayscale
     gray_image = rgb2gray(image)
@@ -72,13 +76,13 @@ def display_results(image, gray_image, binary_cleared, image_label_overlay, labe
         # Draw rectangle around segmented features
         minr, minc, maxr, maxc = region.bbox
         rect = plt.Rectangle((minc, minr), maxc - minc, maxr - minr, fill=False, edgecolor='red', linewidth=2)
-        ax[3].add_patch(rect)
+        ax[3].add_patch(rect) #forced to be three (need to reserach hwy channel has to be three)
 
     plt.tight_layout()
     plt.show()
 
 # Paths to the image and the mask
-image_path = 'PAT_1379_1300_924.png'
+image_path = 'PAT_1379_1300_924.png' #test images
 mask_path = 'PAT_1379_1300_924_mask.png'
 
 # Load, process, and display
