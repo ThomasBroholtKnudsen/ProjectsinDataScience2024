@@ -78,8 +78,8 @@ def display_results(image, gray_image, binary_cleared, image_label_overlay, labe
     plt.show()
 
 # Paths to the image and the mask
-image_path = 'PAT_1379_1300_924.png'
-mask_path = 'PAT_1379_1300_924_mask.png'
+image_path = 'PAT_166_257_586.png'
+mask_path = 'PAT_166_257_586_mask.png'
 
 # Load, process, and display
 image, gray_image, binary_cleared, image_label_overlay, label_image = load_and_process_image(image_path, mask_path)
