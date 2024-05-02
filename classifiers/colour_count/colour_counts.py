@@ -164,3 +164,4 @@ def how_many_colours_are_there(colour_mean_hue, hue_range = 60):
 
     number_of_colours = len(regions_that_are_distinct) +1
     return(number_of_colours)
+    
