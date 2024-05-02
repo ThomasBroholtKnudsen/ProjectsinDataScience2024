@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from skimage.io import imread
-from skimage.color import rgb2gray
+from skimage.color import rgb2gray, rgba2rgb  # Import rgba2rgb function
 from skimage.filters import threshold_otsu
 from skimage.morphology import closing, square, opening, disk
 from skimage.measure import label, regionprops
@@ -18,6 +18,10 @@ def load_and_process_image(image_path, mask_path):
     # Load the image and the mask
     image = imread(image_path)
     mask = imread(mask_path)
+
+    # Convert RGBA image to RGB if it has an alpha channel
+    if image.shape[2] == 4:
+        image = rgba2rgb(image)
 
     # Convert the image to grayscale
     gray_image = rgb2gray(image)
