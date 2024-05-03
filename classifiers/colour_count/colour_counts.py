@@ -2,7 +2,73 @@
 ######################################################################################
 ################################### COLOR VARIATION ##################################
 ######################################################################################
+import skimage
+from skimage import segmentation
+import imageio.v2 as imageio
+import numpy as np
+from matplotlib import pyplot as plt
+from skimage.io import imread
 
+# Function to load an image
+#def load_image(filepath):
+#    return imageio.imread(filepath)
+
+# Function to load and apply a mask image
+#def apply_mask(image, mask):
+#    mask = mask > 0  # Assuming the mask is a binary image where white areas are True
+#    return image * mask  # Element-wise multiplication to apply the mask
+
+# Paths to the images
+image_path = '..\\dots_and_globues\\PAT_1379_1300_924.png'
+mask_path = '..\\dots_and_globues\\PAT_1379_1300_924_mask.png'
+
+# Load the image and the mask
+image = imread(image_path)
+mask = imread(mask_path)
+
+print(image)
+
+#triplicate the mask to make it fit for an rgb image
+rgb_mask = mask
+for line in rgb_mask:
+    for pixel in line:
+        if pixel == 0:
+            pixel = [0,0,0]
+        else:
+            pixel = [1,1,1]
+
+print(image)
+print(rgb_mask)
+
+# Apply the mask to the binary image
+masked = np.logical_and(image, (mask,mask,mask))
+
+# Function to create a figure
+def create_figure(size=(8, 8)):
+    return plt.figure(figsize=size)
+
+# Function to display an image in a subplot
+def show_image(image, title='', pos=None):
+    if pos is not None:
+        plt.subplot(pos)
+    plt.imshow(image, cmap='gray')
+    plt.title(title)
+    plt.axis('off')
+
+
+
+# Load image and mask
+#im_rgb = load_image(image_path).astype(np.float32)
+#mask = load_image(mask_path)
+
+# Apply the mask to the rgb image
+#im_masked = apply_mask(im_rgb, mask)
+
+# Show images
+create_figure((12, 6))
+show_image(np.clip(im_rgb, 0, 1), title='Original image', pos=241)
+show_image(masked, title='Masked image', pos=242)
+plt.show()  # This ensures that the plot is displayed
 
 def find_topbottom(mask):
     '''
@@ -116,22 +182,24 @@ def getColorFeatures(image, mask):
     color_mean_satur = [hsv[1] for hsv in color_mean_hsv]
     color_mean_value = [hsv[2] for hsv in color_mean_hsv]
 
+    return color_mean_hue
+
     # Compute different features based on the above values
     # * Compute SD for hue
-    hue_sd = np.std(np.array(color_mean_hue))
+    #hue_sd = np.std(np.array(color_mean_hue))
 
     # * Compute SD for satur
-    satur_sd = np.std(np.array(color_mean_satur))
+    #satur_sd = np.std(np.array(color_mean_satur))
 
     # * Compute SD for value
-    value_sd =np.std(np.array(color_mean_value))
+    #value_sd =np.std(np.array(color_mean_value))
 
     # * Computing IQR range for color values
-    q1 = np.quantile(color_mean_value, 0.25, interpolation='midpoint')
-    q3 = np.quantile(color_mean_value, 0.75, interpolation='midpoint')
-    iqr_val = q3 - q1
+    #q1 = np.quantile(color_mean_value, 0.25, interpolation='midpoint')
+    #q3 = np.quantile(color_mean_value, 0.75, interpolation='midpoint')
+    #iqr_val = q3 - q1
     
-    return [hue_sd, satur_sd, value_sd, iqr_val]
+    #return [hue_sd, satur_sd, value_sd, iqr_val]
 
 #############################################################
 #Here begins ours
@@ -154,14 +222,23 @@ def how_many_colours_are_there(colour_mean_hue, hue_range = 60):
         for region_b in colour_mean_hue:
             if region_a <= (region_b + hue_range) and region_a > (region_b - hue_range):
                 regions_that_are_distinct.append(region_a)
-                break
+
+                if region_b in regions_that_are_distinct:
+                    regions_that_are_distinct.remove(region_b)
+                
 
             elif (359 + region_a) <= (region_b + hue_range) and (359 + region_a) > (region_b - hue_range):
                 regions_that_are_distinct.append(region_a)
-                break
+                
+                if region_b in regions_that_are_distinct:
+                    regions_that_are_distinct.remove(region_b)
+                
 
             else:
+                continue
 
     number_of_colours = len(regions_that_are_distinct) +1
     return(number_of_colours)
     
+print(rgb_to_hsv(100,150,48))
+print(how_many_colours_are_there(colour_mean_hue=[40,60,110,160,161,250]))
