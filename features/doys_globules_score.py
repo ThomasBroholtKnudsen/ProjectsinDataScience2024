@@ -7,16 +7,19 @@ from skimage.morphology import closing, square, opening, disk
 from skimage.measure import label, regionprops
 from skimage.segmentation import clear_border
 
-# Paths to the image and the mask
-image_path = 'PAT_1379_1300_924.png' #test images
-mask_path = 'PAT_1379_1300_924_mask.png'
-
 def calculate_compactness(region):
     perimeter = region.perimeter
     area = region.area
     if perimeter == 0:
         return 0
     return (perimeter ** 2) / (4 * np.pi * area)
+
+def check_for_dots(label_image):
+    # Count the number of regions detected
+    if np.max(label_image) > 0:  # Checks if there are any labeled regions
+        return 2  # Dots are present
+    else:
+        return 1  # No dots
 
 def load_and_process_image(image_path, mask_path):
     # Load the image and the mask
@@ -56,9 +59,9 @@ def load_and_process_image(image_path, mask_path):
         if compactness > compactness_threshold:
             image_label_overlay[label_image == region.label] = 1
 
-    return image, gray_image, binary_cleared, image_label_overlay, label_image
+    return image, gray_image, binary_cleared, image_label_overlay, label_image, check_for_dots(label_image)
 
-def display_results(image, gray_image, binary_cleared, label_image, dots_detected):
+def display_results(image, gray_image, binary_cleared, image_label_overlay, label_image):
     fig, ax = plt.subplots(1, 4, figsize=(16, 4))
     ax[0].imshow(image)
     ax[0].set_title('Original Image')
@@ -72,19 +75,23 @@ def display_results(image, gray_image, binary_cleared, label_image, dots_detecte
     ax[2].set_title('Binary Image')
     ax[2].axis('off')
 
-    dots_detected_str = 'Dots Detected: ' + str(dots_detected)
-    ax[3].text(0.5, 0.5, dots_detected_str, fontsize=12, ha='center')
+    ax[3].imshow(image)
+    ax[3].imshow(image_label_overlay, cmap='jet', alpha=0.5)
+    ax[3].set_title('Detected Features on Original')
     ax[3].axis('off')
+    for region in regionprops(label_image):
+        # Draw rectangle around segmented features
+        minr, minc, maxr, maxc = region.bbox
+        rect = plt.Rectangle((minc, minr), maxc - minc, maxr - minr, fill=False, edgecolor='red', linewidth=2)
+        ax[3].add_patch(rect) #force channel to be three
 
     plt.tight_layout()
     plt.show()
 
-# Load, process, and display
-image, gray_image, binary_cleared, label_image, dots_detected = load_and_process_image(image_path, mask_path)
-
-# Display the results
-display_results(image, gray_image, binary_cleared, label_image, dots_detected)
+# Paths to the image and the mask
+image_path = 'PAT_1379_1300_924.png'  # test images
+mask_path = 'PAT_1379_1300_924_mask.png'
 
 # Load, process, and display
-image, gray_image, binary_cleared, image_label_overlay, label_image = load_and_process_image(image_path, mask_path)
+image, gray_image, binary_cleared, image_label_overlay, label_image, dots_presence = load_and_process_image(image_path, mask_path)
 display_results(image, gray_image, binary_cleared, image_label_overlay, label_image)

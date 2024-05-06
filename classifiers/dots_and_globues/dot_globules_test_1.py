@@ -9,59 +9,51 @@ from skimage.segmentation import clear_border
 
 def load_and_process_image(image_path, mask_path):
     # Load the image and the mask
-    image = imread(PAT_1379_1300_924.png)
-    mask = imread(PAT_1379_1300_924_mask.png)
+    image = imread(image_path)
+    mask = imread(mask_path)
+
+    # Convert RGBA image to RGB if it has an alpha channel
+    if image.shape[2] == 4:
+        image = rgba2rgb(image)
 
     # Convert the image to grayscale
     gray_image = rgb2gray(image)
 
-    # Apply Otsu's threshold to convert to binary image
+    # Adjust the threshold to focus on dark brown spots
     thresh = threshold_otsu(gray_image)
-    binary = gray_image > thresh
+    binary = gray_image < thresh * 0.6  # Adjust the threshold value as needed for better separation
+
+    # Apply the mask to the binary image
+    binary_masked = np.logical_and(binary, mask)
 
     # Morphological operations to clean up the image
-    binary_closed = closing(binary, square(3))
-    binary_opened = opening(binary_closed, disk(2))
+    binary_closed = closing(binary_masked, disk(1))  # Adjust the disk size as needed for better closing
+    binary_opened = opening(binary_closed, disk(1))  # Adjust the disk size as needed for better opening
 
     # Remove artifacts connected to image border
     binary_cleared = clear_border(binary_opened)
 
     # Label and identify regions in the image
     label_image = label(binary_cleared)
-    image_label_overlay = label_image > 0
 
-    return image, gray_image, binary_cleared, image_label_overlay, label_image
+    # Calculate compactness for each region
+    compactness_threshold = 2  # Adjust as needed for better detection of small circular shapes
+    regions = regionprops(label_image)
+    dots_detected = 0  # Initialize the flag
+    for region in regions:
+        compactness = calculate_compactness(region)
+        if compactness > compactness_threshold:
+            dots_detected = 1  # Set the flag if dots are detected
+            break  # Exit loop once dots are detected
 
-def display_results(image, gray_image, binary_cleared, image_label_overlay, label_image):
-    fig, ax = plt.subplots(1, 4, figsize=(16, 4))
-    ax[0].imshow(image)
-    ax[0].set_title('Original Image')
-    ax[0].axis('off')
-
-    ax[1].imshow(gray_image, cmap='gray')
-    ax[1].set_title('Grayscale Image')
-    ax[1].axis('off')
-
-    ax[2].imshow(binary_cleared, cmap='gray')
-    ax[2].set_title('Binary Image')
-    ax[2].axis('off')
-
-    ax[3].imshow(image)
-    ax[3].set_title('Detected Features on Original')
-    ax[3].axis('off')
-    for region in regionprops(label_image):
-        # Draw rectangle around segmented coins
-        minr, minc, maxr, maxc = region.bbox
-        rect = plt.Rectangle((minc, minr), maxc - minc, maxr - minr, fill=False, edgecolor='red', linewidth=2)
-        ax[3].add_patch(rect)
-
-    plt.tight_layout()
-    plt.show()
+    return image, gray_image, binary_cleared, label_image, dots_detected
 
 # Paths to the image and the mask
-image_path = 'path_to_your_image.png'
-mask_path = 'path_to_your_mask.png'
+image_path = 'PAT_1379_1300_924.png' #test images
+mask_path = 'PAT_1379_1300_924_mask.png'
 
 # Load, process, and display
-image, gray_image, binary_cleared, image_label_overlay, label_image = load_and_process_image(image_path, mask_path)
-display_results(image, gray_image, binary_cleared, image_label_overlay, label_image)
+image, gray_image, binary_cleared, label_image, dots_detected = load_and_process_image(image_path, mask_path)
+
+# Output 0 if no dots are detected and 1 if dots are detected
+print(dots_detected)
