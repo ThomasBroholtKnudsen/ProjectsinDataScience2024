@@ -4,6 +4,7 @@
 ######################################################################################
 import skimage
 from skimage import segmentation
+from skimage import segmentation.slic
 import imageio.v2 as imageio
 import numpy as np
 from matplotlib import pyplot as plt
