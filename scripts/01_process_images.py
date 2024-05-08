@@ -17,7 +17,6 @@ from extract_features import extract_features
 # Main script
 #-------------------
 
-
 #Where is the raw data
 #### TK - following is original code. Doesn't work for me. Problem with os.sep. EDIT: Works as of 08/05.
 file_data = 'data' + os.sep +'metadata.csv'
