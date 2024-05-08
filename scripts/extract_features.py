@@ -143,6 +143,48 @@ def halveTheRegionHorizontally(yCoord, mask):
 
     return lower, upper
 
+def halveTheRegionVertically(xCoord, mask):
+    """
+    Splits the image into two halves vertically. The vertical "line" is set to go through the x-th Coordinate.
+    :xCoord: index
+    :mask: 2D binary numpy array
+    :return: 2x 2D numpy array with exact same dimensions representing the two halves.
+    """
+
+    # Get the halves
+    left = mask[:, :xCoord]
+    right = mask[:, xCoord:]
+
+    # Make sure both halves have the same amount of columns
+    n_cols_left = left.shape[1]
+    n_cols_right = right.shape[1]
+
+    # Right half needs more columns
+    if n_cols_left > n_cols_right:
+
+        # Get inputs for transformation
+        col_difference = n_cols_left - n_cols_right
+        n_rows = right.shape[0]
+        additional_cols = np.zeros((n_rows, col_difference)) #, dtype=int) # TK - ER DETTE NØDVENDIGT?
+
+        # Stacks column-wise right and then additional columns
+        right = np.hstack((right, additional_cols))
+
+    # Left half needs more columns
+    elif n_cols_left < n_cols_right:
+
+        # Get inputs for transformation
+        col_difference = n_cols_right - n_cols_left
+        n_rows = left.shape[0]
+        additional_cols = np.zeros((n_rows, col_difference)) #, dtype=int) # TK - ER DETTE NØDVENDIGT?
+
+        # Stacks column-wise additional columns and then left
+        left = np.hstack((additional_cols, left))
+
+    # Flip the right along the y-axis, so it can be then compared directly without any further transformation
+    right = np.flip(right, axis=1)
+
+    return left, right
 
 
 def computeAsymmetry(mask):
@@ -151,9 +193,10 @@ def computeAsymmetry(mask):
     Computes the asymmetry of the region by following procedure:
     1. Finds the midpoint of lesion using the mean of x and y coordinates
     Then rotates the images by specified angles and for each rotation:
-    2. Splits the region in half using the above coordinates (horizontally)
+    2. Splits the region in half using the above coordinates (both horizontally and vertically)
     3. Subtracts the two halves from each other, sums the differences and computes 
     this difference relative to the size of the lesion.
+    4. Aggregates horizontal and vertical asymmetry scores
     Finally, out of all computations, we take the minimum value and return it as the asymmetry.
     :mask: 2D binary numpy array
     :return: horizontal_asymmetry (normalized by division by lesion area)
@@ -179,9 +222,13 @@ def computeAsymmetry(mask):
         # Horizontal split
         bottom, top = halveTheRegionHorizontally(yCoord, rotated_mask)
         horizontal_asymmetry = abs(np.sum((bottom - top)))/lesion_area
+        
+        # Vertical split
+        left, right = halveTheRegionVertically(xCoord, rotated_mask)
+        vertical_asymmetry = np.sum(np.abs(left - right)) / lesion_area
 
         # Save the result
-        asymmetry_results.append(horizontal_asymmetry)
+        asymmetry_results.append(horizontal_asymmetry + vertical_asymmetry)
     
     return min(asymmetry_results)
 
@@ -300,7 +347,7 @@ def getColorFeatures(image, mask):
 
 
     #This function is the "ultimate" one that should be used
-def how_many_colours_are_there(image, mask, hue_range = 17):
+def how_many_colours_are_there(image, mask, hue_range = 60):
 
     '''
     Counts the number of diifferent colours are in an image.
