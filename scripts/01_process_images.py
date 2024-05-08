@@ -19,15 +19,16 @@ from extract_features import extract_features
 
 
 #Where is the raw data
-#### TK - following is original code. Doesn't work for me. Problem with os.sep.
-#file_data = '..' + os.sep + 'data' + os.sep +'metadata.csv'
-#path_image = '..' + os.sep + 'data' + os.sep + 'images' + os.sep + 'imgs_part_1'
+#### TK - following is original code. Doesn't work for me. Problem with os.sep. EDIT: Works as of 08/05.
+file_data = 'data' + os.sep +'metadata.csv'
+path_image = 'data' + os.sep + 'images' # + os.sep + 'imgs_part_1' # Left out depending on structure of data
+path_mask = 'data' + os.sep + 'masks'
 
 # Where is the raw data
-#### TK - following is my attempt at fixing above code.
-file_data = os.path.join('data', 'metadata.csv')
-path_image = os.path.join('data', 'images') #,'imgs_part_1') # Left out depending on layout 
-path_mask = os.path.join('data','masks')
+#### TK - following is my attempt at fixing above code. EDIT: Above works. 
+#file_data = os.path.join('data', 'metadata.csv')
+#path_image = os.path.join('data', 'images') #,'imgs_part_1') # Left out depending on structure of data
+#path_mask = os.path.join('data','masks')
 
   
 # Where we will store the features
