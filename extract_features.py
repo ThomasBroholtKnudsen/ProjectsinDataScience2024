@@ -202,6 +202,10 @@ def computeAsymmetry(mask):
     :return: horizontal_asymmetry (normalized by division by lesion area)
     """
 
+    # TK test - convert floats to ints:
+    #mask[mask > 0] = 1 
+
+
     # Total area of lesion
     lesion_area = np.sum(mask, dtype=np.float64)
     
