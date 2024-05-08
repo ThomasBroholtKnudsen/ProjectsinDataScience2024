@@ -64,7 +64,8 @@ for i in np.arange(num_images):
     #### TK - following line works even though I had trouble earlier with os.sep
     file_image = path_image + os.sep + image_id[i]
 
-    # Define corresponding mask to image
+    # Define corresponding mask to image. 
+    # It is assummed that the masks have the same image ID as the images, with "_mask" added before the extension
     # Split the image_id into name and extension
     name, extension = os.path.splitext(image_id[i])
     mask_id = f"{name}_mask{extension}"
@@ -92,7 +93,7 @@ for i in np.arange(num_images):
         #features[i] = x
        
         
-#Save the image_id used + features to a file by creating a new dataframe with the array of feature scores. 
+#Save the features to a file by creating a new dataframe with the array of feature scores. 
 #TK - use if we create list of lists instead of np array:
 #features_array = np.array(features)
 df_features = pd.DataFrame(features, columns=feature_names)     
