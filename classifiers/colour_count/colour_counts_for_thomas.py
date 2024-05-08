@@ -126,7 +126,7 @@ def getColorFeatures(im_rgb, mask):
 
 
     #This function is the "ultimate" one that should be used
-def how_many_colours_are_there(im_rgb, mask, hue_range = 60):
+def how_many_colours_are_there(im_rgb, mask, hue_range = 17):
 
     '''
     Counts the number of diifferent colours are in an image.
