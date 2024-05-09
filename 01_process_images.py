@@ -51,9 +51,9 @@ num_images = len(image_id)
 
 
 #Make array to store features
-feature_names = ['asymmetry','colour','dots']
+feature_names = ['image_id','asymmetry','colour','dots']
 num_features = len(feature_names)
-features = np.zeros([num_images,num_features], dtype=np.float16)  
+features = np.zeros([num_images,num_features], dtype=object)  
 #TK test to use list of lists instead of numpy arrays:
 #features = [ [0, 0, 0] for i in range(num_images)]
 
@@ -88,7 +88,8 @@ for i in np.arange(num_images):
         
            
         # Store in the array we created before
-        features[i,:] = x
+        features[i,0] = image_id[i]
+        features[i,1:] = x
         #TK - use if we create list of lists instead of using numpy arrays
         #features[i] = x
        
