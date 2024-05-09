@@ -203,7 +203,7 @@ def computeAsymmetry(mask):
     """
 
     # TK test - convert floats to ints:
-    #mask[mask > 0] = 1 
+    mask[mask > 0] = 1 
 
 
     # Total area of lesion
