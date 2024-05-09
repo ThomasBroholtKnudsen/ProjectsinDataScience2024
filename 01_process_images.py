@@ -31,15 +31,15 @@ path_mask = 'data' + os.sep + 'groupOkapi_masks'
 
   
 # Where we will store the features
-file_features = 'features/features.csv'
+file_features = 'features/features_okapi_images.csv'
 
 
 #Read meta-data into a Pandas dataframe
 df = pd.read_csv(file_data)
 
 # Extract image IDs and labels from the data. 
-image_id = list(df['img_id'])
-label = np.array(df['diagnostic'])
+image_id = list(df['image_file_name'])
+label = np.array(df['diagnosis'])
 
 # We don't use the following as of 07/05-24
 # Here you could decide to filter the data in some way (see task 0)
