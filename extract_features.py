@@ -45,6 +45,13 @@ def extract_features(image, mask):
 
     # Measuring dots
     dots_score = computeDotsScore(image,mask)
+
+    if dots_score < 0.33:
+        dots_score = 0
+    elif 0.33 < dots_score < 0.66:
+        dots_score = 1
+    elif dots_score > 0.66:
+        dots_score = 2
     
 
 
