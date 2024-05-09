@@ -411,7 +411,6 @@ def calculate_compactness(region):
 def check_for_dots(regions):
     compactness_threshold = 2  # Threshold for shape circularity
     dot_count = 0
-
     for region in regions:
         compactness = calculate_compactness(region)
         if compactness > compactness_threshold:
@@ -419,41 +418,27 @@ def check_for_dots(regions):
     return 1 if dot_count >= 10 else 0
 
 def load_and_process_image(image, mask):
-
     # Convert RGBA image to RGB if it has an alpha channel
     if image.shape[2] == 4:
         image = rgba2rgb(image)
-
     # Convert the image to grayscale
     gray_image = rgb2gray(image)
-
     # Adjust the threshold to focus on dark brown spots
     thresh = threshold_otsu(gray_image)
     binary = gray_image < thresh * 0.6  # Adjust the threshold value as needed for better separation
-
     # Apply the mask to the binary image
     binary_masked = np.logical_and(binary, mask)
-
     # Morphological operations to clean up the image
     binary_closed = closing(binary_masked, disk(1))  # Adjust the disk size as needed for better closing
     binary_opened = opening(binary_closed, disk(1))  # Adjust the disk size as needed for better opening
-
-    # Remove artifacts connected to image border
+    # Remove artifacts connected to the image border
     binary_cleared = clear_border(binary_opened)
-
     # Label and identify regions in the image
     label_image = label(binary_cleared)
-
-    # Calculate compactness for each region
     regions = regionprops(label_image)
-    image_label_overlay = np.zeros_like(label_image)
-    for region in regions:
-        if calculate_compactness(region) > 2:
-            image_label_overlay[label_image == region.label] = 1
-    return image_label_overlay  # or label_image based on what you need to return
-
+    return regions, label_image  # Return regions for compactness check and label_image if needed
 
 def computeDotsScore(image, mask):
-    label_image = load_and_process_image(image, mask)
-    dots_score = check_for_dots(regionprops(label_image))
+    regions, label_image = load_and_process_image(image, mask)  # Get regions directly from image processing function
+    dots_score = check_for_dots(regions)  # Pass regions to check for dots
     return dots_score
