@@ -415,9 +415,9 @@ def check_for_dots(regions):
 
     if dot_count >= 10:
         print("Dots present")
-        return 2  # Dots are present
+        return 1  # Dots are present
     else:
-        return 1  # No dots
+        return 0  # No dots
 
 def load_and_process_image(image, mask):
 
