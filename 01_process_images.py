@@ -79,7 +79,7 @@ for i in np.arange(num_images):
         im = np.float16(im)
         mask = plt.imread(file_mask)
         mask = np.float16(mask)
-    
+
         # Measure features.
         x = extract_features(im,mask)
         

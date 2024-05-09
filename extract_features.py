@@ -41,7 +41,7 @@ def extract_features(image, mask):
     if asymmetry_score < 0.33:
         asymmetry_score = 0
     elif 0.33 < asymmetry_score < 0.66:
-        asymmetry_score = 1
+       asymmetry_score = 1
     elif asymmetry_score > 0.66:
         asymmetry_score = 2
 
