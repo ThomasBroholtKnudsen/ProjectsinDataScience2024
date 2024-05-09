@@ -402,9 +402,19 @@ def calculate_compactness(region):
         return 0
     return (perimeter ** 2) / (4 * np.pi * area)
 
-def check_for_dots(label_image):
-    # Count the number of regions detected
-    if np.max(label_image) > 0:  # Checks if there are any labeled regions
+def check_for_dots(regions):
+    compactness_threshold = 2  # Threshold for shape circularity
+    dot_count = 0
+
+    for region in regions:
+        compactness = calculate_compactness(region)
+        if compactness > compactness_threshold:
+            dot_count += 1
+
+    print(f"Detected dots: {dot_count}")
+
+    if dot_count >= 10:
+        print("Dots present")
         return 2  # Dots are present
     else:
         return 1  # No dots
