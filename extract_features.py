@@ -393,6 +393,8 @@ def how_many_colours_are_there(image, mask, hue_range = 17):
     #adherence to our scale (1-4,5+ colours)
     if number_of_colours > 5:
         number_of_colours = 5
+    elif number_of_colours < 1:
+        number_of_colours = 1
         return(number_of_colours)
     else:              
         return(number_of_colours)
