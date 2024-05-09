@@ -416,11 +416,7 @@ def check_for_dots(regions):
         compactness = calculate_compactness(region)
         if compactness > compactness_threshold:
             dot_count += 1
-
-    if dot_count >= 10:
-        return 1  # Dots are present
-    else:
-        return 0  # No dots
+    return 1 if dot_count >= 10 else 0
 
 def load_and_process_image(image, mask):
 
@@ -449,21 +445,15 @@ def load_and_process_image(image, mask):
     label_image = label(binary_cleared)
 
     # Calculate compactness for each region
-    compactness_threshold = 2  # Adjust as needed for better detection of small circular shapes
     regions = regionprops(label_image)
     image_label_overlay = np.zeros_like(label_image)
     for region in regions:
-        compactness = calculate_compactness(region)
-        if compactness > compactness_threshold:
+        if calculate_compactness(region) > 2:
             image_label_overlay[label_image == region.label] = 1
+    return image_label_overlay  # or label_image based on what you need to return
 
-    return label_image
 
-
-def computeDotsScore(image,mask):
-
-    label_image = load_and_process_image(image,mask)
-
-    dots_score = check_for_dots(label_image)
-
+def computeDotsScore(image, mask):
+    label_image = load_and_process_image(image, mask)
+    dots_score = check_for_dots(regionprops(label_image))
     return dots_score
