@@ -417,10 +417,7 @@ def check_for_dots(regions):
         if compactness > compactness_threshold:
             dot_count += 1
 
-    print(f"Detected dots: {dot_count}")
-
     if dot_count >= 10:
-        print("Dots present")
         return 1  # Dots are present
     else:
         return 0  # No dots
