@@ -333,7 +333,7 @@ def getColorFeatures(image, mask):
     im_lesion = lesionMaskCrop(image, mask)
 
     # Get SLIC boundaries
-    segments = slic(im_lesion, n_segments=60, compactness=0.001, sigma=1, start_label=1)
+    segments = slic(im_lesion, n_segments=600, compactness=0.0001, sigma=1, start_label=1)
 
     # Fetch RegionProps - this includes min/mean/max values for color intensity
     regions = regionprops(segments, intensity_image=im_lesion)
@@ -357,7 +357,7 @@ def getColorFeatures(image, mask):
 
 
     #This function is the "ultimate" one that should be used
-def how_many_colours_are_there(image, mask, hue_range = 17):
+def how_many_colours_are_there(image, mask, hue_range = 7):
 
     '''
     Counts the number of diifferent colours are in an image.
