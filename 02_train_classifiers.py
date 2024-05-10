@@ -17,6 +17,15 @@ file_data = '..' + os.sep + 'data' + os.sep +'metadata.csv'
 df = pd.read_csv(file_data)
 label = np.array(df['diagnostic'])
 
+# Creating a binary array corresponding to cancer/non-cancer (1 = cancer)
+cancer = np.copy(label)
+cancer[cancer == "BSS"] = 1
+cancer[cancer == "MEL"] = 1
+cancer[cancer == "SCC"] = 1
+cancer[cancer == "ACK"] = 0
+cancer[cancer == "NEV"] = 0
+cancer[cancer == "SEK"] = 0
+
 
 #Where did we store the features?
 file_features = 'features/features.csv'
