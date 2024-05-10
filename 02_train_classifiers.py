@@ -93,5 +93,66 @@ classifier = classifier.fit(x,y)
 filename = 'groupXY_classifier.sav'
 pickle.dump(classifier, open(filename, 'wb'))
 
+##Draft for the KNN code:
+
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, roc_auc_score
+
+# Split the data into training, validation, and test sets
+features = df[['asymmetry', 'colour', 'dots']]
+target = df['cancerous']
+
+x_train, x_val, y_train, y_val = train_test_split(features, target, test_size=0.2, stratify=target)
+x_val, x_test, y_val, y_test = train_test_split(x_val, y_val, test_size=0.5, stratify=y_val)
+
+# Train KNeighborsClassifier with different values of K
+knn_1 = KNeighborsClassifier(n_neighbors=1)
+knn_1.fit(x_train, y_train)
+
+knn_5 = KNeighborsClassifier(n_neighbors=5)
+knn_5.fit(x_train, y_train)
+
+# Predict on the validation set
+predict_knn1 = knn_1.predict(x_val)
+predict_knn5 = knn_5.predict(x_val)
+
+# Calculate accuracy and AUC scores
+acc_knn1 = accuracy_score(y_val, predict_knn1)
+acc_knn5 = accuracy_score(y_val, predict_knn5)
+auc_knn1 = roc_auc_score(y_val, knn_1.predict_proba(x_val)[:, 1])
+auc_knn5 = roc_auc_score(y_val, knn_5.predict_proba(x_val)[:, 1])
+
+results_without_random_state = {
+    "Accuracy KNN_1": acc_knn1,
+    "Accuracy KNN_5": acc_knn5,
+    "AUC KNN_1": auc_knn1,
+    "AUC KNN_5": auc_knn5
+}
+
+# Repeat with a fixed random state for reproducibility
+x_train, x_val, y_train, y_val = train_test_split(features, target, test_size=0.2, stratify=target, random_state=1907)
+x_val, x_test, y_val, y_test = train_test_split(x_val, y_val, test_size=0.5, stratify=y_val, random_state=1907)
+
+knn_1.fit(x_train, y_train)
+knn_5.fit(x_train, y_train)
+predict_knn1 = knn_1.predict(x_val)
+predict_knn5 = knn_5.predict(x_val)
+
+acc_knn1 = accuracy_score(y_val, predict_knn1)
+acc_knn5 = accuracy_score(y_val, predict_knn5)
+auc_knn1 = roc_auc_score(y_val, knn_1.predict_proba(x_val)[:, 1])
+auc_knn5 = roc_auc_score(y_val, knn_5.predict_proba(x_val)[:, 1])
+
+results_with_random_state = {
+    "Accuracy KNN_1": acc_knn1,
+    "Accuracy KNN_5": acc_knn5,
+    "AUC KNN_1": auc_knn1,
+    "AUC KNN_5": auc_knn5
+}
+
+results_without_random_state, results_with_random_state
+
+
 
 
