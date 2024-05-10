@@ -19,7 +19,7 @@ from extract_features import extract_features
 
 #Where is the raw data
 #### TK - following is original code. Doesn't work for me. Problem with os.sep. EDIT: Works as of 08/05.
-file_data = 'data' + os.sep +'metadata_dx_id.csv'
+file_data = 'data' + os.sep +'okapi_data_metadata.csv'
 path_image = 'data' + os.sep + 'Okapi_raw_images' # + os.sep + 'imgs_part_1' # Left out depending on structure of data
 path_mask = 'data' + os.sep + 'groupOkapi_masks'
 
