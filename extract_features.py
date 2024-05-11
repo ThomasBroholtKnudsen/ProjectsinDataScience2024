@@ -333,7 +333,7 @@ def getColorFeatures(image, mask):
     im_lesion = lesionMaskCrop(image, mask)
 
     # Get SLIC boundaries
-    segments = slic(im_lesion, n_segments=600, compactness=0.0001, sigma=1, start_label=1)
+    segments = slic(im_lesion, n_segments=6000, compactness=0.00001, sigma=1, start_label=1)
 
     # Fetch RegionProps - this includes min/mean/max values for color intensity
     regions = regionprops(segments, intensity_image=im_lesion)
