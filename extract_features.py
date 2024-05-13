@@ -38,12 +38,12 @@ def extract_features(image, mask):
     # Measuring asymmetry
     asymmetry_score = computeAsymmetry(mask)
 
-    if asymmetry_score < 0.33:
-        asymmetry_score = 0
-    elif 0.33 < asymmetry_score < 0.66:
-       asymmetry_score = 1
-    elif asymmetry_score > 0.66:
-        asymmetry_score = 2
+    #if asymmetry_score < 0.33:
+    #    asymmetry_score = 0
+    #elif 0.33 < asymmetry_score < 0.66:
+    #   asymmetry_score = 1
+    #elif asymmetry_score > 0.66:
+    #    asymmetry_score = 2
 
     # Measuring colour
     colour_score = how_many_colours_are_there(image, mask, hue_range = 60)
