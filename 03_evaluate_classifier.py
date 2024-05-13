@@ -28,6 +28,9 @@ mask = np.float16(mask_plt)
 file_data = '..'+ os.sep +'data' + os.sep + 'metadata.csv'
 ground_truth = pd.read_csv(file_data)
 
+image_id = list(ground_truth['image_file_name'])
+label = np.array(ground_truth['diagnosis'])
+
 
 # The function that should classify new images. 
 # The image and mask are the same size, and are already loaded using plt.imread

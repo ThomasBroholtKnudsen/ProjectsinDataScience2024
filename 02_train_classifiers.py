@@ -7,8 +7,11 @@ from sklearn.model_selection import train_test_split, KFold
 from sklearn.metrics import accuracy_score, balanced_accuracy_score
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 import matplotlib.pyplot as plt
+from sklearn.ensemble import RandomForestClassifier
 
 import pickle #for saving/loading trained classifiers
+
+random_state = 42
 
 
 # Load data
@@ -33,11 +36,11 @@ our_annotations = pd.read_csv(annotation_data)
 features = our_annotations[['asymmetry', 'colour', 'dots']].values
 
 # Split data for training and testing (final evaluation)
-X_train, X_test, y_train, y_test = train_test_split(features, cancer, test_size=0.2, stratify=cancer)
+X_train, X_test, y_train, y_test = train_test_split(features, cancer, test_size=0.2, stratify=cancer, random_state = 42)
 
 #Kfolding, and running on all models
 num_folds = 10
-num_classifiers = 3
+num_classifiers = 5
 kfold = KFold(n_splits = num_folds)
 
 acc_val = np.empty([num_folds,num_classifiers])
@@ -49,7 +52,7 @@ for i_data, (train_index, val_index) in enumerate(kfold.split(X_train,y_train)):
     x_variant_val = X_train[val_index,:]
     y_variant_val = y_train[val_index]
 
-    dec_tree = DecisionTreeClassifier()
+    dec_tree = DecisionTreeClassifier(random_state = 42)
     dec_tree.fit(x_variant_train, y_variant_train)
     y_tree_prediction = dec_tree.predict(x_variant_val)
     acc_val[i_data,0] = balanced_accuracy_score(y_variant_val, y_tree_prediction)
@@ -66,16 +69,46 @@ for i_data, (train_index, val_index) in enumerate(kfold.split(X_train,y_train)):
     bal_acc_knn5 = balanced_accuracy_score(y_variant_val, y_pred_knn5)
     acc_val[i_data,2] = bal_acc_knn5
 
+    forest = RandomForestClassifier()
+    forest.fit(x_variant_train, y_variant_train)
+    y_pred_forest = forest.predict(x_variant_val)
+    bal_acc_forest = balanced_accuracy_score(y_variant_val, y_pred_forest)
+    acc_val[i_data,3] = bal_acc_forest
+
+    #hyper parameters used are commonly found ones, used by https://www.youtube.com/watch?v=_QuGM_FW9eo&list=PLcQVY5V2UY4LNmObS0gqNVyNdVfXnHwu8&index=9
+    param_forest = RandomForestClassifier(n_estimators = 1000, criterion = 'entropy', min_samples_split = 10, max_depth = 7, random_state=42)
+    param_forest.fit(x_variant_train, y_variant_train)
+    y_pred_paramforest = param_forest.predict(x_variant_val)
+    bal_acc_paramforest = balanced_accuracy_score(y_variant_val, y_pred_paramforest)
+    acc_val[i_data,4] = bal_acc_paramforest
+
 #Average over all folds
 average_acc = np.mean(acc_val,axis=0) 
 
-#The best classifier is.....
-if average_acc[0] > average_acc[1] and average_acc[0] > average_acc[2]:
-    classifier = DecisionTreeClassifier()
-elif average_acc[1] > average_acc[0] and average_acc[1] > average_acc[2]:
+print("The best classifier based on validation is:")
+best_acc_score = max(average_acc)
+if best_acc_score == average_acc[0]:
+    classifier = DecisionTreeClassifier(random_state = 42)
+    print("DT")
+elif best_acc_score == average_acc[1]:
     classifier = KNeighborsClassifier(1)
-else:
+    print("KNN1")
+elif best_acc_score == average_acc[2]:
     classifier = KNeighborsClassifier(5)
+    print("KNN5")
+elif best_acc_score == average_acc[3]:
+    classifier = RandomForestClassifier(random_state = 42)
+    print("RF")
+else:
+    classifier = RandomForestClassifier(n_estimators = 1000, criterion = 'entropy', min_samples_split = 10, max_depth = 7, random_state=42)
+    print("ParamRF")
+print(f"It's average balanced accuracy score is: {best_acc_score}")
+
+#testing this best classifier on our set aside test data
+classifier.fit(X_train, y_train)
+y_best_pred = classifier.predict(X_test)
+bal_acc_score_best = balanced_accuracy_score(y_test, y_best_pred)
+print(f'Our best classifier on the validation data has a balanced accuracy score of: {bal_acc_score_best} when tested on the set aside test data')
 
 
 #training this model on our entire dataset
