@@ -49,6 +49,7 @@ for i_data, (train_index, val_index) in enumerate(kfold.split(X_train,y_train)):
     x_variant_val = X_train[val_index,:]
     y_variant_val = y_train[val_index]
 
+    dec_tree = DecisionTreeClassifier()
     dec_tree.fit(x_variant_train, y_variant_train)
     y_tree_prediction = dec_tree.predict(x_variant_val)
     acc_val[i_data,0] = balanced_accuracy_score(y_variant_val, y_tree_prediction)
