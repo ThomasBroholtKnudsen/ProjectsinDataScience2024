@@ -5,7 +5,7 @@ Repository for the final assignment in course BSPRDAS1KU (spring 2024)
 # Dependencies
 pip install numpy\
 pip install matplotlib\
-pip install skimage\
+pip install scikit-image\
 pip install imageio\
 pip install os\
 pip install pandas\
