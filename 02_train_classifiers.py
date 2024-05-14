@@ -45,6 +45,7 @@ kfold = KFold(n_splits = num_folds)
 
 acc_val = np.empty([num_folds,num_classifiers])
 
+#this will run a for loop on each set of training/validation data
 for i_data, (train_index, val_index) in enumerate(kfold.split(X_train,y_train)):
     #the number of training data sets created will therefore also be according to the num_folds
     x_variant_train = X_train[train_index,:]
@@ -82,7 +83,7 @@ for i_data, (train_index, val_index) in enumerate(kfold.split(X_train,y_train)):
     bal_acc_paramforest = balanced_accuracy_score(y_variant_val, y_pred_paramforest)
     acc_val[i_data,4] = bal_acc_paramforest
 
-#Average over all folds
+#Average over all folds for each classifier
 average_acc = np.mean(acc_val,axis=0) 
 
 print("The best classifier based on validation is:")
