@@ -34,6 +34,6 @@ If wanting to run again, ensure the following:\
 Line 5: csv_file_kripp_alpha.csv is in the same location as this script.\
 Line 9: features.csv, the output of the generated feature scores is in the same location as this script, or change the file path.
 
-# Contents of Repository
-## okapi_annotation_scores.xlsx: our manual annotation scores, retained for reference and to calculate Krippendorff Alpha.\
-## archive folder: useful parts of the history of our project.
+## Contents of Repository
+okapi_annotation_scores.xlsx: our manual annotation scores, retained for reference and to calculate Krippendorff Alpha.\
+archive folder: useful parts of the history of our project.
