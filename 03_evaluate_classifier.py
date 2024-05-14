@@ -1,8 +1,8 @@
 #-----------------------------------------------------------------
 ##################### HOW TO USE THE SCRIPT ######################
 
-#Line 28: Provide a path for the image, otherwise you will be prompted to do so in the Terminal.\
-#Line 30: Provide a path for the mask, otherwise you will be prompted to do so in the Terminal.\
+#Line 28: Provide a path for the image, otherwise you will be prompted to do so in the Terminal.
+#Line 30: Provide a path for the mask, otherwise you will be prompted to do so in the Terminal.
 
 #-----------------------------------------------------------------
 
