@@ -15,13 +15,17 @@ from skimage.segmentation import clear_border
 from skimage import segmentation
 from skimage.segmentation import slic
 
+#---------------------------------------------------
+# Sources:
+# 
+# Ludek???
+# https://www.w3resource.com/python-exercises/math/python-math-exercise-77.php
+# https://bioimagebook.github.io/chapters/2-processing/1-processing_and_analysis/processing_and_analysis.html
+#---------------------------------------------------
 
-
-#-------------------
+#---------------------------------------------------
 # Help functions
-#------------------
-
-
+#---------------------------------------------------
 
 #Main function to extract features from an image and mask, that calls other functions    
 def extract_features(image, mask):
