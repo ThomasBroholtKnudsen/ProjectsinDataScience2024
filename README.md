@@ -26,4 +26,10 @@ Line 119: Provide a path for where the classifier file should be stored, current
 
 ## Step 3: Changes in 03_evaluate_classifier.py
 Line 20: Provide a path for the image, otherwise you will be prompted to do so in the Terminal.\
-Line 22: Provide a path for the mask, otherwise you will be prompted to do so in the Terminal.
+Line 22: Provide a path for the mask, otherwise you will be prompted to do so in the Terminal.\
+
+## For the Krippendorffs Alpha kripp_alpha_with_computer_scores.R
+If wanting to run again, ensure the following:\
+Line 5: csv_file_kripp_alpha.csv is in the same location as this script.\
+Line 9: features.csv, the output of the generated feature scores is in the same location as this script, or change the file path.\
+
