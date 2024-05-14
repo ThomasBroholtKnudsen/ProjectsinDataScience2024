@@ -34,7 +34,7 @@ print(asym_k_a) # Prints Krippendorffs Alpha for ASYMMETRY
 ## Subjects = 106, Raters = 5, alpha = 0.265
 
 ## COLOR
-f2_col <- c("Anno1Feat2", "Anno2Feat2", "Anno3Feat2", "Anno4Feat2", "colour") # Columns with feature 2 (color)
+f2_col <- c("Anno1Feat2", "Anno2Feat2", "Anno3Feat2", "Anno4Feat2", "colour") # Columns with feature 2 (colour)
 color_data <- data[, which(names(data) %in% f2_col)]
 color_matrix <- as.matrix(color_data) # Change dataframe to matrix
 color_t_matrix <- t(color_matrix) # Transpose matrix
@@ -42,7 +42,7 @@ color_k_a <- kripp.alpha(color_t_matrix, "ordinal") # Calculating Krippendorffs 
 
 print(color_k_a) # Prints Krippendorffs Alpha for COLOR
 
-## RESULT for COLOR
+## RESULT for COLOUR
 ## Subjects = 106, Raters = 5, alpha = 0.0771 
 
 ## DOTS AN GLOBULES
