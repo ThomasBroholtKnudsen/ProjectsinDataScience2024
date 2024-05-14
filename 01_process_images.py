@@ -8,10 +8,10 @@ FYP project image processing and feature extraction
 # Line 34: Provide a path for the folder where the raw images are stored.
 # Line 35: Provide a path for the folder where the binary masks are stored.
 # Line 38: The path for the file where the feature scores will be stored is set to features/features.csv.
+# Line 44: Provide the column name containing the image IDs from the metadata-file.
 # Line 63: Change the filename for the binary masks. 
 # It is assummed that the filenames for the masks consist of the image_id plus a string, to tell that it is a mask. 
 # E.g. "PAT_31_42_680_mask.png", where the filename is image_id + "_mask" + file type.
-
 #-----------------------------------------------------------------
 
 # Import of necessary libraries and functions
@@ -35,7 +35,7 @@ path_image = 'data' + os.sep + 'Okapi_raw_images'
 path_mask = 'data' + os.sep + 'groupOkapi_masks'
   
 # Where we will store the features
-file_features = 'features/features_okapi_images.csv'
+file_features = 'features/features.csv'
 
 # Read meta-data into a Pandas dataframe
 df = pd.read_csv(file_data)
