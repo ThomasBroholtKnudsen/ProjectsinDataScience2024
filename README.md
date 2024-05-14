@@ -6,10 +6,8 @@ Repository for the final assignment in course BSPRDAS1KU (spring 2024)
 pip install numpy\
 pip install matplotlib\
 pip install scikit-image\
-pip install imageio\
 pip install pandas\
-pip install scikit-learn\
-pip install pickle
+pip install scikit-learn
 
 # How to use the scripts
 ## Step 1: Changes in 01_process_images.py
