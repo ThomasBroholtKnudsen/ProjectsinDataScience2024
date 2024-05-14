@@ -46,7 +46,7 @@ def extract_features(image, mask):
     #    asymmetry_score = 2
 
     # Measuring colour
-    colour_score = how_many_colours_are_there(image, mask, hue_range = 7)
+    colour_score = how_many_colours_are_there(image, mask, hue_range = 60)
    
 
     # Measuring dots
