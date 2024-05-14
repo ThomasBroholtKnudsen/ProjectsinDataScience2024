@@ -24,11 +24,11 @@ import pickle #for saving/loading trained classifiers
 random_state = 42
 
 # Load data
-file_data = 'data' + os.sep + 'metadata.csv'
+file_data = 'data' + os.sep + 'okapi_data_metadata.csv'
 df = pd.read_csv(file_data)
 
 # Prepare labels
-label = np.array(df['diagnostic'])
+label = np.array(df['diagnosis'])
 cancer = np.copy(label)
 cancer[cancer == "BCC"] = 1
 cancer[cancer == "MEL"] = 1
