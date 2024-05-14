@@ -1,10 +1,10 @@
 #-----------------------------------------------------------------
 ##################### HOW TO USE THE SCRIPT ######################
 
-# Line 26: Provide a path for the metadata file, currently set to "data\metadata.csv".
-# Line 42: The path for the file where the feature scores will be stored is set to "features/features.csv".
-# Line 127: Provide a path for where the classifier file should be stored, currently sset to "groupOkapi_classifier.sav".
-
+# Line 27: Provide a path for the metadata file, currently set to "data\metadata.csv".
+# Line 31: Provide column name containing the diagnosis from the metadata-file.
+# Line 43: The path for the file where the feature scores will be stored is set to "features/features.csv".
+# Line 128: Provide a path for where the classifier file should be stored, currently sset to "groupOkapi_classifier.sav".
 #-----------------------------------------------------------------
 
 
