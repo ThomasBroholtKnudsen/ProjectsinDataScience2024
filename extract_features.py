@@ -1,19 +1,13 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 19 09:53:20 2023
-
-@author: vech
-"""
+# Import necessary libraries
 import numpy as np
 import matplotlib.pyplot as plt
-
-# Import packages for image processing
 import skimage
 import imageio.v2 as imageio
-from skimage import morphology #for measuring things in the masks
+
+# Import functions for image processing
+from skimage import morphology
 from skimage.transform import rotate
-from skimage.color import rgb2gray, rgba2rgb  # Import rgba2rgb function
+from skimage.color import rgb2gray, rgba2rgb  
 from skimage.filters import threshold_otsu
 from skimage.morphology import closing, square, opening, disk
 from skimage.measure import label, regionprops
@@ -29,39 +23,20 @@ from skimage.segmentation import slic
 
 
 
-#Main function to extract features from an image, that calls other functions    
+#Main function to extract features from an image and mask, that calls other functions    
 def extract_features(image, mask):
-    
-
-
 
     # Measuring asymmetry
     asymmetry_score = computeAsymmetry(mask)
 
-    #if asymmetry_score < 0.33:
-    #    asymmetry_score = 0
-    #elif 0.33 < asymmetry_score < 0.66:
-    #   asymmetry_score = 1
-    #elif asymmetry_score > 0.66:
-    #    asymmetry_score = 2
-
     # Measuring colour
     colour_score = how_many_colours_are_there(image, mask, hue_range = 60)
    
-
     # Measuring dots
     dots_score = computeDotsScore(image,mask)
-    
-
 
     # Output: 1D array of all the scores
     return np.array([asymmetry_score,colour_score,dots_score], dtype=np.float16)
-
-    #### TK - create output as list, if we want to have image_id as a column in features.csv.
-    #list_with_scores = [asymmetry_score,colour_score,dots_score]
-    #return list_with_scores
-
-
 
 
 #########################################################################
@@ -71,11 +46,8 @@ def extract_features(image, mask):
 def rotateImage(mask, angle, center):
 
     """
-    Rotates the given image by given angle in clockwise direction. Center is set to center of image by default. 
-    See skimage documentation: https://scikit-image.org/docs/dev/api/skimage.transform.html#skimage.transform.rotate
-    :image: 2D numpy array
-    :angle: degrees
-    :return: new image - 2D numpy array
+    This function rotates the given image (a 2D numpy array) by the number of given degrees
+    and returns the rotated image as a 2D numpy array.
     """
 
     rotated_image = rotate(mask, -angle, center = center)
@@ -85,11 +57,9 @@ def rotateImage(mask, angle, center):
 def findCentroid(mask):
 
     """
-    Finds centroid using the mean of x and y coordinates.
-    If confused regards to axis in numpy, see this answer (scroll to the bottom for visual):
-    https://stackoverflow.com/questions/17079279/how-is-axis-indexed-in-numpys-array
-    :mask: 2D array containing binary values where 1s signify the selected region
-    :return: xCoord, yCoord
+    This function computes the centroid of a given mask (a 2D binary numpy array),
+    by computing the mean of the x and y-coordinates of the mask region.
+    The pair of coordinates for the centroid are returned.
     """
 
     # X-coordinates
@@ -108,10 +78,9 @@ def findCentroid(mask):
 def halveTheRegionHorizontally(yCoord, mask):
 
     """
-    Splits the image into two halves horizontally. The horizontal "line" is set to go through the y-th Coordinate.
-    :yCoord: index
-    :mask: 2D binary numpy array
-    :return: 2x 2D numpy array with exact same dimensions representing the two halves.
+    This function takes a y-coordiante and an image (2D numpy array) as input.
+    It splits the image horizontally through the given y-coordinate into two halves.
+    It returns two 2D numpy arrays representing the two halves.
     """
 
     # Get the halves
@@ -130,7 +99,7 @@ def halveTheRegionHorizontally(yCoord, mask):
         n_columns = lower.shape[1]
         additional_rows = [[0]*n_columns for _ in range(row_difference)]
 
-        # Stacks row-wise lower and then additional rows --> notice the order is important since we want to add new rows to the bottom
+        # Stacks row-wise lower and then additional rows
         lower = np.vstack((lower, additional_rows))
 
     # Upper half needs more rows
@@ -141,7 +110,7 @@ def halveTheRegionHorizontally(yCoord, mask):
         n_columns = upper.shape[1]
         additional_rows = [[0]*n_columns for _ in range(row_difference)]
 
-        # Same logic as above, notice here that we are choosing first additional rows and then upper
+        # Stacks row-wise additional rows and then upper
         upper = np.vstack((additional_rows, upper))
     
     # Flip the lower along the x-axis, so it can be then compared directly without any further transformation
@@ -151,10 +120,9 @@ def halveTheRegionHorizontally(yCoord, mask):
 
 def halveTheRegionVertically(xCoord, mask):
     """
-    Splits the image into two halves vertically. The vertical "line" is set to go through the x-th Coordinate.
-    :xCoord: index
-    :mask: 2D binary numpy array
-    :return: 2x 2D numpy array with exact same dimensions representing the two halves.
+    This function takes an x-coordiante and an image (2D numpy array) as input.
+    It splits the image vertically through the given x-coordinate into two halves.
+    It returns two 2D numpy arrays representing the two halves.
     """
 
     # Get the halves
@@ -171,7 +139,7 @@ def halveTheRegionVertically(xCoord, mask):
         # Get inputs for transformation
         col_difference = n_cols_left - n_cols_right
         n_rows = right.shape[0]
-        additional_cols = np.zeros((n_rows, col_difference)) #, dtype=int) # TK - ER DETTE NØDVENDIGT?
+        additional_cols = np.zeros((n_rows, col_difference))
 
         # Stacks column-wise right and then additional columns
         right = np.hstack((right, additional_cols))
@@ -182,7 +150,7 @@ def halveTheRegionVertically(xCoord, mask):
         # Get inputs for transformation
         col_difference = n_cols_right - n_cols_left
         n_rows = left.shape[0]
-        additional_cols = np.zeros((n_rows, col_difference)) #, dtype=int) # TK - ER DETTE NØDVENDIGT?
+        additional_cols = np.zeros((n_rows, col_difference))
 
         # Stacks column-wise additional columns and then left
         left = np.hstack((additional_cols, left))
@@ -196,19 +164,19 @@ def halveTheRegionVertically(xCoord, mask):
 def computeAsymmetry(mask):
 
     """
-    Computes the asymmetry of the region by following procedure:
-    1. Finds the midpoint of lesion using the mean of x and y coordinates
-    Then rotates the images by specified angles and for each rotation:
-    2. Splits the region in half using the above coordinates (both horizontally and vertically)
-    3. Subtracts the two halves from each other, sums the differences and computes 
-    this difference relative to the size of the lesion.
-    4. Aggregates horizontal and vertical asymmetry scores
-    Finally, out of all computations, we take the minimum value and return it as the asymmetry.
-    :mask: 2D binary numpy array
-    :return: horizontal_asymmetry (normalized by division by lesion area)
+    This function takes a mask (2D binary numpy array) as input.
+    It computes the asymmetry of the masked region as follows:
+    1. Finds centroid x and y-coordinate pair of the mask. 
+    2. The mask is split into two halves (both horizontally and vertically) using the computed centroid
+    3. The two regions are subtracted from each other. The differences are summed and then made relative to the size of the mask.
+       This is done both horizontally and vertically. 
+    4. The horizontal and vertical asymmetry scores are aggregated. 
+    
+    This procedure is done for a selected number of rotations of the mask. 
+    The minimum of the aggregated asymmetry scores is returned.
     """
 
-    # TK test - convert floats to ints:
+    # Make sure the mask is binary and not consisting of floats.
     mask[mask > 0] = 1 
 
 
