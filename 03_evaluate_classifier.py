@@ -10,13 +10,18 @@ import matplotlib.pyplot as plt
 import os
 import pandas as pd
 
+# Import our own file that has the feature extraction functions
+from extract_features import extract_features
+
 #for testing the classifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.neighbors import KNeighborsClassifier
 
 #put the relative file locations for the image and mask here
-file_image = '..'+ os.sep +'data' + os.sep + 'PAT_123_456_789.png'
-file_mask = '..'+ os.sep +'data' + os.sep + 'PAT_123_456_789_mask.png'
+print("Please type in the relative file path of the image")
+file_image = str(input())
+print("Please type in the relative file path of the mask")
+file_mask = str(input())
 
 #read in the image and mask into arrays
 im_plt = plt.imread(file_image)
@@ -24,29 +29,30 @@ img = np.float16(im_plt)
 mask_plt = plt.imread(file_mask)
 mask = np.float16(mask_plt)
 
-#relative file location for metadata (groundtruth)
-file_data = '..'+ os.sep +'data' + os.sep + 'metadata.csv'
-ground_truth = pd.read_csv(file_data)
-
-image_id = list(ground_truth['image_file_name'])
-label = np.array(ground_truth['diagnosis'])
-
-
 # The function that should classify new images. 
 # The image and mask are the same size, and are already loaded using plt.imread
 def classify(img, mask):
     
      #Extract features (the same ones that you used for training)
      x = extract_features(img, mask)
-         
+     y = x.reshape(1,-1)
      
      #Load the trained classifier
      classifier = pickle.load(open('groupOkapi_classifier.sav', 'rb'))
     
     
      #Use it on this example to predict the label AND posterior probability
-     pred_label = classifier.predict(x)
-     pred_prob = classifier.predict_proba(x)
+     pred_label = classifier.predict(y)
+     pred_prob = classifier.predict_proba(y)
+
+     #Since our saved classifier is KNN1, this will always return 1 or 0
+     if pred_label == 1:
+          print("Expected class is: Cancer")
+          print(f'Probability of prediction is: {int(pred_prob[0,1])}')
+     else:
+          print("Expected class is: Not cancer")
+          print(f'Probability of prediction is: {int(pred_prob[0,0])}')
+
      
      
      #print('predicted label is ', pred_label)
@@ -55,3 +61,4 @@ def classify(img, mask):
  
     
 # The TAs will call the function above in a loop, for external test images/masks
+print(classify(img,mask))
