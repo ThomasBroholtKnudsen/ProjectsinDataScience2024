@@ -12,7 +12,7 @@ pip install sklearn\
 pip install pickle
 
 # How to use it
-## Step 1: Changes in 01_process_images.py\
+## Step 1: Changes in 01_process_images.py
 Line xx: Provide a path for the metadata file.\
 Line xx: Provide a path for the folder where the raw images are stored.\
 Line xx: Provide a path for the folder where the binary masks are stored.\
