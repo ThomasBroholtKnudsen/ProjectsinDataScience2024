@@ -7,7 +7,6 @@ pip install numpy\
 pip install matplotlib\
 pip install scikit-image\
 pip install imageio\
-pip install os\
 pip install pandas\
 pip install sklearn\
 pip install pickle
