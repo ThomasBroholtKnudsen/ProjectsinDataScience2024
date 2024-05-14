@@ -1,4 +1,10 @@
+#-----------------------------------------------------------------
+##################### HOW TO USE THE SCRIPT ######################
 
+#-----------------------------------------------------------------
+
+
+# Import of necessary libraries and functions
 import os
 import pandas as pd
 import numpy as np
@@ -10,6 +16,7 @@ import matplotlib.pyplot as plt
 from sklearn.ensemble import RandomForestClassifier
 
 import pickle #for saving/loading trained classifiers
+
 
 random_state = 42
 

@@ -1,17 +1,6 @@
 """
 FYP project image processing and feature extraction
 """
-
-# Import of necessary libraries and functions
-import os
-from os.path import exists
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-
-# Import our own file that has the feature extraction functions
-from extract_features import extract_features
-
 #-----------------------------------------------------------------
 ##################### HOW TO USE THE SCRIPT ######################
 
@@ -24,6 +13,17 @@ from extract_features import extract_features
 
 # Line xx: Change the filename for the binary masks
 #-----------------------------------------------------------------
+
+
+# Import of necessary libraries and functions
+import os
+from os.path import exists
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Import our own file that has the feature extraction functions
+from extract_features import extract_features
 
 #-------------------
 # Main script

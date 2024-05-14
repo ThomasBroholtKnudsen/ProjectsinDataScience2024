@@ -1,3 +1,8 @@
+#-----------------------------------------------------------------
+##################### HOW TO USE THE SCRIPT ######################
+
+#-----------------------------------------------------------------
+
 import pickle #for loading your trained classifier
 
 from extract_features import extract_features #our feature extraction
