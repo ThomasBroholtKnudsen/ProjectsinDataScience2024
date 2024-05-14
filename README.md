@@ -20,9 +20,9 @@ Line xx: The path for the file where the feature scores will be stored is set to
 Line xx: Change the filename for the binary masks. It is assummed that the filenames for the masks consist of the image_id plus a string, to tell that it is a mask. E.g. "PAT_31_42_680_mask.png", where the filename is image_id + "_mask" + file type.\
 
 ## Step 2: Changes in 02_train_classifier.py
-Line xx: Provide a path for the metadata file.\
-Line xx: The path for the file where the feature scores will be stored is set to features/features.csv.\
-Line xx: Provide a path for where the classifier file should be stored.\
+Line 18: Provide a path for the metadata file, currently set to "data\metadata.csv".\
+Line 34: The path for the file where the feature scores will be stored is set to "features/features.csv".\
+Line 119: Provide a path for where the classifier file should be stored, currently sset to "groupOkapi_classifier.sav".\
 
 ## Step 3: Changes in 03_evaluate_classifier.py
 Line 20: Provide a path for the image, otherwise you will be prompted to do so in the Terminal.\
