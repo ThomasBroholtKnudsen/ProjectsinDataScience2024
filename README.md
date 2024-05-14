@@ -25,5 +25,5 @@ Line xx: The path for the file where the feature scores will be stored is set to
 Line xx: Provide a path for where the classifier file should be stored.\
 
 ## Step 3: Changes in 03_evaluate_classifier.py
-Line 20: Provide a path for the image, otherwise you will be prompted to do so in the Terminal
-Line 22: Provide a path for the mask, otherwise you will be prompted to do so in the Terminal
+Line 20: Provide a path for the image, otherwise you will be prompted to do so in the Terminal.\
+Line 22: Provide a path for the mask, otherwise you will be prompted to do so in the Terminal.
