@@ -37,3 +37,4 @@ Line 9: features.csv, the output of the generated feature scores is in the same 
 ## Contents of Repository
 okapi_annotation_scores.xlsx: our manual annotation scores, retained for reference and to calculate Krippendorff Alpha.\
 archive folder: useful parts of the history of our project.
+okapi_data_metadata.csv: This is where we drew our metadata from, it is a subset of the original PAD-UFES-20 dataset
