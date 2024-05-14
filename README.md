@@ -21,8 +21,8 @@ Line 38: The path for the file where the feature scores will be stored is set to
 Line 63: Change the filename for the binary masks. It is assummed that the filenames for the masks consist of the image_id plus a string, to tell that it is a mask. E.g. "PAT_31_42_680_mask.png", where the filename is image_id + "_mask" + file type.
 
 ## Step 2: Changes in 02_train_classifier.py
-Line 26: Provide a path for the metadata file, currently set to "data\metadata.csv".\
-Line 42: The path for the file where the feature scores will be stored is set to "features/features.csv".\
+Line 26: The metadata file, created from our subset of the PAD-UFES-20 currently set to "data\okapi_data_metadata.csv".\
+Line 42: The path for the file where the feature scores will be stored is set to "features\features.csv".\
 Line 127: Provide a path for where the classifier file should be stored, currently sset to "groupOkapi_classifier.sav".
 
 ## Step 3: Changes in 03_evaluate_classifier.py
