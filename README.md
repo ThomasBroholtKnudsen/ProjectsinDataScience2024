@@ -39,4 +39,5 @@ Line 9: features.csv, the output of the generated feature scores is in the same 
 ## Contents of Repository
 okapi_annotation_scores.xlsx: our manual annotation scores, retained for reference and to calculate Krippendorff Alpha.\
 archive folder: useful parts of the history of our project.\
-okapi_data_metadata.csv: This is where we drew our metadata from, it is a subset of the original PAD-UFES-20 dataset
+okapi_data_metadata.csv: This is where we drew our metadata from, it is a subset of the original PAD-UFES-20 dataset.\
+data: This folder contains the subset of images and masks we worked with (Okapi_raw_images, groupOkapi_masks), the image and mask we evaluated using our classifier (nora_external_test_data), and two csv files of metadata, one of the entire dataset (metadata.csv) and one of a filtered set of the metadata for just our images (okapi_data_metadata.csv).
