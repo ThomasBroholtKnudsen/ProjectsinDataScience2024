@@ -1,5 +1,3 @@
-
-
 import pickle #for loading your trained classifier
 
 from extract_features import extract_features #our feature extraction
@@ -61,4 +59,4 @@ def classify(img, mask):
  
     
 # The TAs will call the function above in a loop, for external test images/masks
-print(classify(img,mask))
+classify(img,mask)
