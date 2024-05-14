@@ -4,16 +4,15 @@ FYP project image processing and feature extraction
 #-----------------------------------------------------------------
 ##################### HOW TO USE THE SCRIPT ######################
 
-# Line xx: Provide a path for the metadata-file
-# Line xx: Provide a path for the folder where the raw images are stored.
-# Line xx: Provide a path for the folder where the binary masks are stored.
+# Line 33: Provide a path for the metadata file.
+# Line 34: Provide a path for the folder where the raw images are stored.
+# Line 35: Provide a path for the folder where the binary masks are stored.
+# Line 38: The path for the file where the feature scores will be stored is set to features/features.csv.
+# Line 63: Change the filename for the binary masks. 
+# It is assummed that the filenames for the masks consist of the image_id plus a string, to tell that it is a mask. 
+# E.g. "PAT_31_42_680_mask.png", where the filename is image_id + "_mask" + file type.
 
-# It is assummed that the filenames for the masks consist of the image_id plus a string, to tell that it is a mask.
-# E.g. "PAT_31_42_680_mask.png", where the filename is image_id + "_mask" + file type
-
-# Line xx: Change the filename for the binary masks
 #-----------------------------------------------------------------
-
 
 # Import of necessary libraries and functions
 import os
