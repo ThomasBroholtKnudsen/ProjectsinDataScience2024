@@ -12,7 +12,7 @@ pip install pandas\
 pip install sklearn\
 pip install pickle
 
-# How to use it
+# How to use the scripts
 ## Step 1: Changes in 01_process_images.py
 Line 33: Provide a path for the metadata file.\
 Line 34: Provide a path for the folder where the raw images are stored.\
