@@ -25,8 +25,8 @@ Line 42: The path for the file where the feature scores will be stored is set to
 Line 127: Provide a path for where the classifier file should be stored, currently sset to "groupOkapi_classifier.sav".\
 
 ## Step 3: Changes in 03_evaluate_classifier.py
-Line 20: Provide a path for the image, otherwise you will be prompted to do so in the Terminal.\
-Line 22: Provide a path for the mask, otherwise you will be prompted to do so in the Terminal.\
+Line 28: Provide a path for the image, otherwise you will be prompted to do so in the Terminal.\
+Line 30: Provide a path for the mask, otherwise you will be prompted to do so in the Terminal.\
 
 ## For the Krippendorffs Alpha kripp_alpha_with_computer_scores.R
 If wanting to run again, ensure the following:\
