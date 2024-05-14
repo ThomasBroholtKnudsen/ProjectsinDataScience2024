@@ -15,11 +15,11 @@ random_state = 42
 
 
 # Load data
-file_data = 'data' + os.sep + 'okapi_data_metadata.csv'
+file_data = 'data' + os.sep + 'metadata.csv'
 df = pd.read_csv(file_data)
 
 # Prepare labels
-label = np.array(df['diagnosis'])
+label = np.array(df['diagnostic'])
 cancer = np.copy(label)
 cancer[cancer == "BCC"] = 1
 cancer[cancer == "MEL"] = 1
@@ -31,7 +31,7 @@ cancer = cancer.astype(int)  # Ensure that labels are integers
 
 
 # Load features
-annotation_data = 'features' + os.sep + 'features_okapi_images.csv'
+annotation_data = 'features' + os.sep + 'features.csv'
 our_annotations = pd.read_csv(annotation_data)
 features = our_annotations[['asymmetry', 'colour', 'dots']].values
 
