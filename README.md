@@ -8,7 +8,7 @@ pip install matplotlib\
 pip install scikit-image\
 pip install imageio\
 pip install pandas\
-pip install sklearn\
+pip install scikit-learn\
 pip install pickle
 
 # How to use the scripts
