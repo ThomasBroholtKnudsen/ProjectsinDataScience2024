@@ -18,7 +18,7 @@ from skimage.segmentation import slic
 #---------------------------------------------------
 # Sources:
 # 
-# Ludek???
+# https://github.com/ludekcizinsky/itu-fyp/blob/main/coursework/fyp2021p03g13/scripts/all_scripts.py
 # https://www.w3resource.com/python-exercises/math/python-math-exercise-77.php
 # https://bioimagebook.github.io/chapters/2-processing/1-processing_and_analysis/processing_and_analysis.html
 #---------------------------------------------------
