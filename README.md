@@ -3,6 +3,7 @@
 Repository for the final assignment in course BSPRDAS1KU (spring 2024)
 
 # Dependencies
+These packages must be installed to run the scripts.\
 pip install numpy\
 pip install matplotlib\
 pip install scikit-image\
